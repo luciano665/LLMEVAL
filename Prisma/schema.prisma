@@ -1,0 +1,33 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Experiment {
+  id           Int        @id @default(autoincrement())
+  name         String
+  description  String?
+  created_at   DateTime   @default(now())
+  Responses    Response[]
+}
+
+model Response {
+  id              String       @id @default(uuid())    // UUID for unique response IDs
+  experiment      Experiment   @relation(fields: [experiment_id], references: [id], onDelete: Cascade)
+  experiment_id   Int
+  LLM_Responses   Json[]       // Array of JSON objects for structured responses
+  Evaluations     Evaluations[]
+  created_at      DateTime     @default(now())
+}
+
+model Evaluations {
+  id          Int       @id @default(autoincrement())
+  response    Response   @relation(fields: [response_id], references: [id], onDelete: Cascade)
+  response_id String
+  metrics     Json       // Store all evaluation metrics as JSON
+  created_at  DateTime   @default(now())
+}
