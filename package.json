@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
+    "@prisma/client": "^6.1.0",
     "axios": "^1.7.9",
     "groq": "^3.68.3",
     "groq-sdk": "^0.9.1",
